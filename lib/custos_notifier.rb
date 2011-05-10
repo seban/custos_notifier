@@ -17,37 +17,7 @@ module CustosNotifier
       options[:exception] = exception
       notice = Notice.new(options)
 
-
-#      data = {
-#        "project"                         => @@project,
-#        "api_key"                         => @@api_key,
-#        "error[exception_class]"          => exception.class.to_s,
-#        "error[message]"                  => exception.message,
-#        "error[stage]"                    => @@stage,
-#        "error[backtrace]"                => sanitize_backtrace(exception.backtrace),
-#        "error[server]"                   => `hostname -s`.chomp,
-#        "error[source]"                   => "",
-#        "error[process_id]"               => $$,
-#        "error[request][uri]"             => notice.request_uri,
-#        "error[request][parameters]"      => notice.parameters.inspect,
-#        "error[request][document_root]"   => notice.document_root,
-#        "error[request][content_length]"  => request.env["CONTENT_LENGTH"],
-#        "error[request][http_accept]"     => request.env["HTTP_ACCEPT"],
-#        "error[request][http_method]"     => request.env["REQUEST_METHOD"],
-#        "error[request][http_cookie]"     => request.env["HTTP_COOKIE"],
-#        "error[request][http_host]"       => request.env["HTTP_HOST"],
-#        "error[request][http_referer]"    => request.env["HTTP_REFERER"],
-#        "error[request][user_agent]"      => request.env["HTTP_USER_AGENT"],
-#        "error[request][path_info]"       => request.env["PATH_INFO"],
-#        "error[request][query_string]"    => request.env["QUERY_STRING"],
-#        "error[request][connection]"      => request.env["CONNECTION"],
-#        "error[request][server_name]"     => request.env["SERVER_NAME"]
-#      }
-
       url = URI.parse("#{ @@url }/errors")
-
-      puts notice.to_param.inspect
-
       RestClient.post(url.to_s, notice.to_param)
     end
 
