@@ -8,6 +8,13 @@ module CustosNotifier
   #     end
   #   end
   #
+  #   CustosNotifier.configure do |config|
+  #     config.url      = "foo.blah.bar"
+  #     config.project  = "awsomeSite"
+  #     config.stage    = "production"
+  #     config.api_key  = "secret"
+  #   end
+  #
   #   use CustosNotifier::Rack
   #   run MyApp
   class Rack

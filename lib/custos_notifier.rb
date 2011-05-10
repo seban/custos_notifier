@@ -2,23 +2,38 @@ require 'rubygems'
 require 'rack'
 require 'rest-client'
 
+require 'custos_notifier/configuration'
 require 'custos_notifier/rack'
 
 module CustosNotifier
 
   class << self
 
-    def notify(exception, options = {})
-      @@url     = "http://localhost:9393"
-      @@project = "testproject"
-      @@stage    = "beta"
-      @@api_key = "8862f9805854012e9117001b639f02f3 "
+    attr_accessor :configuration
 
+    def notify(exception, options = {})
       options[:exception] = exception
       notice = Notice.new(options)
 
-      url = URI.parse("#{ @@url }/errors")
+      url = URI.parse("#{ configuration.url }/errors")
       RestClient.post(url.to_s, notice.to_param)
+    end
+
+
+    # Configure Custos notifier. Sets configuration options based on passed block.
+    # Example:
+    #   CustosNotifier.configure do |config|
+    #     config.url = "blah.foo.bar'
+    #     config.project = 'awsome'
+    #     config.stage = 'production'
+    #     config.api_key = 'secret'
+    #   end
+    #
+    # returns:: Configuration
+    def configure
+      self.configuration ||= Configuration.new
+      yield(configuration)
+      configuration
     end
 
   end
@@ -64,12 +79,12 @@ module CustosNotifier
     # returns:: Hash
     def to_param
       {
-        :project => "testproject", #
-        :api_key => "8862f9805854012e9117001b639f02f3", #
+        :project => CustosNotifier.configuration.project,
+        :api_key => CustosNotifier.configuration.api_key,
         :error => {
           :exception_class => @exception_class,
           :message => @message,
-          :stage => "beta", #
+          :stage => CustosNotifier.configuration.stage,
           :backtrace => @backtrace,
           :server => @server,
           :source => @source,
