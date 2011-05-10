@@ -52,6 +52,8 @@ module CustosNotifier
   end
 
 
+  # Mainly goal of this class is evaulate HTTP request attributes and build a hash object containing
+  # all parameters needed to post error to Custos Service.
   class Notice
 
     attr_reader :args
@@ -84,6 +86,10 @@ module CustosNotifier
     end
 
 
+    # Method builds (based on parameters passed to constructor) a parameter hash which i posted
+    # to Custos service.
+    #
+    # returns:: Hash
     def to_param
       {
         :project => "testproject", #
@@ -120,6 +126,8 @@ module CustosNotifier
     protected
 
 
+    # Get a value from <tt>Rack</tt> request object. Block can be passed to method and it will be
+    # evaluated on <tt>method's</tt> return.
     def rack_env(method)
       return unless rack_request
       value = rack_request.send(method)
@@ -131,6 +139,10 @@ module CustosNotifier
     end
 
 
+    # Method returns <tt>Rack</tt> request object based on <tt>self.args[:rack_env]</tt> values.
+    # If there aren't values <tt>nil</tt> will be returned.
+    #
+    # returns:: Rack::Request || NilClass
     def rack_request
       @rack_request ||= if args[:rack_env]
         ::Rack::Request.new(args[:rack_env])
