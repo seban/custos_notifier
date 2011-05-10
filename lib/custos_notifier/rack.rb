@@ -1,5 +1,15 @@
 module CustosNotifier
 
+  # Simple middleware for handling raised exceptions in Rack applications
+  # Example:
+  #   class MyApp
+  #     def call(env)
+  #       raise "my exception"
+  #     end
+  #   end
+  #
+  #   use CustosNotifier::Rack
+  #   run MyApp
   class Rack
 
     def initialize(app)

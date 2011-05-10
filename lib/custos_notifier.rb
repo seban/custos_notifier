@@ -2,6 +2,8 @@ require 'rubygems'
 require 'rack'
 require 'rest-client'
 
+require 'custos_notifier/rack'
+
 module CustosNotifier
 
   class << self
