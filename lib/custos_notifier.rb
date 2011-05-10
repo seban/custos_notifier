@@ -1,5 +1,5 @@
-require 'net/http'
 require 'rubygems'
+require 'rack'
 require 'rest-client'
 
 module CustosNotifier
@@ -104,7 +104,7 @@ module CustosNotifier
             :http_accept => @http_accept,
             :http_cookie => @http_cookie,
             :http_host => @http_host,
-            :http_cookie => @http_referer,
+            :http_referer => @http_referer,
             :user_agent => @user_agent,
             :path_info => @path_info,
             :query_string => @query_string,
