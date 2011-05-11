@@ -13,6 +13,19 @@ module CustosNotifier
 
     attr_accessor :configuration
 
+    # Notify Custos service about raised exceptions. Exception will be ignored if notifier is
+    # configured with "development" stage. Raised exception is passed to this method, additional
+    # request attributes can be passed.
+    # Very simple example you can find in <tt>CustosNotifier::Rack</tt> middleware.
+    # Example:
+    #   begin
+    #     raise "My example exception"
+    #   rescue => ex
+    #     CustosNotifier.notify ex, :rack_env => env
+    #   end
+    #
+    # exception:: Exception ancestors
+    # options:: Hash, default empty hash.
     def notify(exception, options = {})
       return if configuration.stage.downcase == "development"
 
