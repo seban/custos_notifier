@@ -14,6 +14,8 @@ module CustosNotifier
     attr_accessor :configuration
 
     def notify(exception, options = {})
+      return if configuration.stage.downcase == "development"
+
       options[:exception] = exception
       notice = Notice.new(options)
 
@@ -35,7 +37,19 @@ module CustosNotifier
     def configure
       self.configuration ||= Configuration.new
       yield(configuration)
+      self.configuration.stage ||= detect_stage
       configuration
+    end
+
+
+    protected
+
+
+    # Try to auto-detect stage. If detection is impossible method returns <tt>nil</tt>.
+    def detect_stage
+      ENV['RACK_ENV'] || ENV['RAILS_ENV'] || Rails.env
+    rescue NameError
+      nil
     end
 
   end
