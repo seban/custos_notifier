@@ -5,6 +5,8 @@ require 'rest-client'
 require 'custos_notifier/configuration'
 require 'custos_notifier/rack'
 
+require "custos_notifier/railtie" if defined?(Rails::Railtie)
+
 module CustosNotifier
 
   class << self
