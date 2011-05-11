@@ -6,6 +6,8 @@ Gem::Specification.new do |spec|
   spec.email = "sebastian.nowak@implix.com"
   spec.version = "0.1"
 
+  spec.add_dependency("rest-client", "~>1.6")
+
   spec.require_path = "lib"
   spec.files = Dir["lib/**/*.rb"]
 end
