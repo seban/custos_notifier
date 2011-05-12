@@ -142,11 +142,16 @@ module CustosNotifier
     protected
 
 
+    def request
+      @args[:request] || rack_request
+    end
+
+
     # Get a value from <tt>Rack</tt> request object. Block can be passed to method and it will be
     # evaluated on <tt>method's</tt> return.
     def rack_env(method)
-      return unless rack_request
-      value = rack_request.send(method)
+      return unless request
+      value = request.send(method)
       if block_given?
         yield(value) if block_given?
       else
