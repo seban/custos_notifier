@@ -27,7 +27,7 @@ module CustosNotifier
     # exception:: Exception ancestors
     # options:: Hash, default empty hash.
     def notify(exception, options = {})
-      return if configuration.stage.downcase == "development"
+      return if ["development", "test"].include? configuration.stage.downcase
 
       options[:exception] = exception
       notice = Notice.new(options)

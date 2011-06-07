@@ -29,7 +29,7 @@ module CustosNotifier
         @app.call(env)
       rescue Exception => raised
         CustosNotifier.notify(raised, :rack_env => env)
-        raise
+        [500, {"Content-Type" => "text/html"},"Something went wrong"]
       end
     end
 
