@@ -29,8 +29,29 @@ module CustosNotifier
         @app.call(env)
       rescue Exception => raised
         CustosNotifier.notify(raised, :rack_env => env)
-        [500, {"Content-Type" => "text/html"},"Something went wrong"]
+        if rails_3_app?
+          if rails_3_not_dev?
+            [500, {"Content-Type" => "text/html"}, File.read(File.join Rails.root, "public/500.html")]
+          else
+            raise
+          end
+        else
+          [500, {"Content-Type" => "text/html"},"Something went wrong"]
+        end
       end
+    end
+
+
+    protected
+
+
+    def rails_3_app?
+      defined?(Rails).nil? != true
+    end
+
+
+    def rails_3_not_dev?
+      !%w(development test).include?(Rails.env)
     end
 
   end

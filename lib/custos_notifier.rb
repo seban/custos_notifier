@@ -85,7 +85,7 @@ module CustosNotifier
       @server = `hostname -s`.chomp
       @source = ""
       @process_id = $$
-      @parameters = rack_env(:params).inspect || {}.inspect
+      @parameters = rack_env(:params) || {}
       @request_uri  = rack_env(:url) || ""
       @document_root = rack_env(:env) { |env| env["DOCUMENT_ROOT"] } || ""
       @content_length = rack_env(:env) { |env| env["DOCUMENT_ROOT"] } || ""
@@ -120,7 +120,7 @@ module CustosNotifier
           :process_id => @process_id,
           :request => {
             :uri => @request_uri,
-            :parameters => @parameters,
+            :parameters => filter(@parameters).inspect,
             :document_root => @document_root,
             :content_length => @content_length,
             :http_accept => @http_accept,
@@ -168,6 +168,30 @@ module CustosNotifier
       @rack_request ||= if args[:rack_env]
         ::Rack::Request.new(args[:rack_env])
       end
+    end
+
+
+    def filter(hash)
+      unless filters.empty?
+        hash.each do |key, value|
+          if filter_key?(key)
+            hash[key] = "[FILTERED]"
+          elsif value.respond_to?(:to_hash)
+            filter(hash[key])
+          end
+        end
+      end
+      hash
+    end
+
+
+    def filters
+      @filters ||= @args[:rack_env]["action_dispatch.parameter_filter"] || []
+    end
+
+
+    def filter_key?(key)
+      filters.any? {|filter| key.to_s.include? filter.to_s }
     end
 
   end
