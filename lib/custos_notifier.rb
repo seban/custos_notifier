@@ -55,6 +55,19 @@ module CustosNotifier
     end
 
 
+    # Send custom notification to Custos service. Any messages can be sent to service in
+    # <tt>message</tt> param. Second parameter is optional and could be anything you want.
+    def custom_notify(message, parameters = {})
+      url = "#{ configuration.url }/notifications"
+      notify_params = {
+        :project => CustosNotifier.configuration.project,
+        :api_key => CustosNotifier.configuration.api_key,
+      }
+      notify_params["notification"] = {"title" => message, "customs" => parameters.inspect}
+      RestClient.post(url, notify_params)
+    end
+
+
     protected
 
 
