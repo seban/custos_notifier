@@ -4,7 +4,7 @@ Gem::Specification.new do |spec|
   spec.description = "With this gem you can submit error messages to Custos service."
   spec.authors = ["Sebastian Nowak"]
   spec.email = "sebastian.nowak@implix.com"
-  spec.version = "0.3"
+  spec.version = "0.3.1"
 
   spec.add_dependency("rest-client", "~>1.6")
 
