@@ -58,6 +58,8 @@ module CustosNotifier
     # Send custom notification to Custos service. Any messages can be sent to service in
     # <tt>message</tt> param. Second parameter is optional and could be anything you want.
     def custom_notify(message, parameters = {})
+      return if ["development", "test"].include? configuration.stage.downcase
+
       url = "#{ configuration.url }/notifications"
       notify_params = {
         :project => CustosNotifier.configuration.project,
