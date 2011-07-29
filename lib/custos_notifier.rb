@@ -58,7 +58,7 @@ module CustosNotifier
     # Send custom notification to Custos service. Any messages can be sent to service in
     # <tt>message</tt> param. Second parameter is optional and could be anything you want.
     def custom_notify(message, parameters = {})
-      return if ["development", "test"].include? configuration.stage.downcase
+      return if ["test"].include? configuration.stage.downcase
 
       url = "#{ configuration.url }/notifications"
       notify_params = {
@@ -114,6 +114,7 @@ module CustosNotifier
       @query_string = rack_env(:query_string) || ""
       @connection = rack_env(:env) { |env| env["HTTP_CONNECTION"] } || ""
       @server_name = rack_env(:env) { |env| env["SERVER_NAME"] } || ""
+      @session = rack_env(:env) { |env| env["rack.session"].inspect }
     end
 
 
@@ -147,7 +148,8 @@ module CustosNotifier
             :query_string => @query_string,
             :connection => @connection,
             :server_name => @server_name,
-            :http_method => @http_method
+            :http_method => @http_method,
+            :session => @session
           }
         }
       }
