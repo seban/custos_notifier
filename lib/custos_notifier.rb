@@ -64,6 +64,7 @@ module CustosNotifier
       notify_params = {
         :project => CustosNotifier.configuration.project,
         :api_key => CustosNotifier.configuration.api_key,
+        :stage => CustosNotifier.configuration.stage
       }
       notify_params["notification"] = {"title" => message, "customs" => parameters.inspect}
       RestClient.post(url, notify_params)

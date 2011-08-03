@@ -23,9 +23,4 @@ describe Rack do
     # TODO: how to mock class method, consider use of rr
   end
 
-  it "should re-raise exception" do
-    RestClient.stub!(:post)
-    lambda { @middleware.call(@env) }.should raise_error(RuntimeError, "My test error")
-  end
-
 end
