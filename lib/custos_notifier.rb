@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'rack'
 require 'rest-client'
+require 'json'
 
 require 'custos_notifier/configuration'
 require 'custos_notifier/rack'
@@ -116,7 +117,7 @@ module CustosNotifier
       @query_string = rack_env(:query_string) || ""
       @connection = rack_env(:env) { |env| env["HTTP_CONNECTION"] } || ""
       @server_name = rack_env(:env) { |env| env["SERVER_NAME"] } || ""
-      @session = rack_env(:env) { |env| env["rack.session"].inspect }
+      @session = rack_env(:env) { |env| env["rack.session"] }
     end
 
 
@@ -138,7 +139,7 @@ module CustosNotifier
           :process_id => @process_id,
           :request => {
             :uri => @request_uri,
-            :parameters => filter(@parameters).inspect,
+            :parameters => filter(@parameters).to_json,
             :document_root => @document_root,
             :content_length => @content_length,
             :http_accept => @http_accept,
@@ -151,7 +152,7 @@ module CustosNotifier
             :connection => @connection,
             :server_name => @server_name,
             :http_method => @http_method,
-            :session => @session
+            :session => @session.to_json
           }
         }
       }

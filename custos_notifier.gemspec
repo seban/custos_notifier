@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.version = "0.3.4"
 
   spec.add_dependency("rest-client", "~>1.6")
+  spec.add_dependency("json")
 
   spec.require_path = "lib"
   spec.files = Dir["lib/**/*.rb"]
