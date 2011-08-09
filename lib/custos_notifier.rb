@@ -206,7 +206,11 @@ module CustosNotifier
 
 
     def filters
-      @filters ||= @args[:rack_env]["action_dispatch.parameter_filter"] || []
+      if @args[:rack_env]
+        @filters ||= @args[:rack_env]["action_dispatch.parameter_filter"] || []
+      else
+        []
+      end
     end
 
 
