@@ -100,7 +100,7 @@ module CustosNotifier
       @exception_class = @exception.class.to_s
       @message = @exception.message
       @backtrace = @exception.backtrace.join("\n")
-      @server = `hostname -s`.chomp
+      @server = `hostname`.chomp
       @source = ""
       @process_id = $$
       @parameters = rack_env(:params) || {}
