@@ -4,10 +4,11 @@ Gem::Specification.new do |spec|
   spec.description = "With this gem you can submit error messages to Custos service."
   spec.authors = ["Sebastian Nowak"]
   spec.email = "sebastian.nowak@implix.com"
-  spec.version = "0.3.7"
+  spec.version = "0.3.8"
 
   spec.add_dependency("rest-client", "~>1.6")
   spec.add_dependency("json")
+  spec.add_dependency("rack")
 
   spec.require_path = "lib"
   spec.files = Dir["lib/**/*.rb"]
